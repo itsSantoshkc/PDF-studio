@@ -70,14 +70,17 @@ export function PDFViewer({ fileUrl }: PDFViewerProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-muted-foreground">Loading PDF...</div>
+        <div className="border-4 border-black bg-white p-8 shadow-neo-xl">
+          <div className="inline-block w-8 h-8 border-4 border-black border-t-transparent animate-spin" />
+          <p className="mt-4 font-mono text-sm uppercase tracking-wider">Loading PDF...</p>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-2 border-b">
+      <div className="flex items-center justify-between p-3 border-b-3 border-black bg-white">
         <PageNav
           currentPage={currentPage}
           totalPages={totalPages}
@@ -93,11 +96,13 @@ export function PDFViewer({ fileUrl }: PDFViewerProps) {
         />
       </div>
 
-      <div className="flex-1 overflow-auto bg-muted/50 flex items-center justify-center p-4">
-        <canvas
-          ref={canvasRef}
-          className="max-w-full max-h-full shadow-lg"
-        />
+      <div className="flex-1 overflow-auto flex items-center justify-center p-8">
+        <div className="border-4 border-black bg-white shadow-neo-xl p-2">
+          <canvas
+            ref={canvasRef}
+            className="max-w-full max-h-full"
+          />
+        </div>
       </div>
     </div>
   );

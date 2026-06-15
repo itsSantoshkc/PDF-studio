@@ -22,8 +22,8 @@ export function PageNav({ currentPage, totalPages, onPrevious, onNext, onPageCha
   return (
     <div className="flex items-center gap-2">
       <Button
-        variant="ghost"
-        size="icon"
+        variant="outline"
+        size="sm"
         onClick={onPrevious}
         disabled={currentPage <= 1}
       >
@@ -35,16 +35,16 @@ export function PageNav({ currentPage, totalPages, onPrevious, onNext, onPageCha
           type="number"
           value={currentPage}
           onChange={handleInputChange}
-          className="w-16 text-center"
+          className="w-16 text-center h-10"
           min={1}
           max={totalPages}
         />
-        <span className="text-sm text-muted-foreground">/ {totalPages}</span>
+        <span className="font-mono text-sm font-bold">/ {totalPages}</span>
       </div>
 
       <Button
-        variant="ghost"
-        size="icon"
+        variant="outline"
+        size="sm"
         onClick={onNext}
         disabled={currentPage >= totalPages}
       >

@@ -2,7 +2,6 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useEditorStore } from "@/stores/editorStore";
 import type { EditorPage } from "@/types/editor";
 
@@ -34,28 +33,34 @@ export function PageThumbnail({ page, index }: PageThumbnailProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer transition-all",
-        "hover:bg-accent/50",
-        isSelected && "bg-accent ring-2 ring-primary",
-        isDragging && "opacity-50"
+        "relative flex flex-col items-center gap-2 p-2 border-3 border-black cursor-pointer transition-all duration-100",
+        "hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-neo",
+        isSelected && "bg-neo-yellow shadow-neo",
+        isDragging && "opacity-50 z-50"
       )}
       onClick={(e) => selectPage(page.id, e.metaKey || e.ctrlKey)}
       {...attributes}
       {...listeners}
     >
       <div className="absolute top-2 left-2 z-10">
-        <Checkbox
-          checked={isSelected}
-          onCheckedChange={() => selectPage(page.id)}
-        />
+        <div className={cn(
+          "w-5 h-5 border-2 border-black flex items-center justify-center",
+          isSelected ? "bg-black" : "bg-white"
+        )}>
+          {isSelected && (
+            <svg className="h-3 w-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={4}>
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          )}
+        </div>
       </div>
 
-      <div className="absolute top-2 right-2 text-xs text-muted-foreground bg-background/80 rounded px-1">
+      <div className="absolute top-2 right-2 font-mono text-xs bg-white border-2 border-black px-1">
         {index + 1}
       </div>
 
       <div
-        className="w-full aspect-[1/1.414] bg-muted rounded overflow-hidden"
+        className="w-full aspect-[1/1.414] bg-gray-100 border-2 border-black overflow-hidden"
         style={{ transform: `rotate(${page.rotation}deg)` }}
       >
         {page.thumbnail ? (
@@ -65,13 +70,13 @@ export function PageThumbnail({ page, index }: PageThumbnailProps) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-muted-foreground text-sm">
+          <div className="w-full h-full flex items-center justify-center font-mono text-xs text-muted-foreground">
             {page.page_number}
           </div>
         )}
       </div>
 
-      <div className="text-xs text-muted-foreground truncate w-full text-center">
+      <div className="font-mono text-xs text-muted-foreground truncate w-full text-center">
         Page {page.page_number}
       </div>
     </div>

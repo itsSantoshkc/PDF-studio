@@ -4,22 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center font-bold uppercase tracking-wider transition-all duration-100 border-3 border-black disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default: "bg-white text-black hover:-translate-x-0.5 hover:-translate-y-0.5",
+        primary: "bg-neo-yellow text-black hover:-translate-x-0.5 hover:-translate-y-0.5",
+        destructive: "bg-neo-pink text-white hover:-translate-x-0.5 hover:-translate-y-0.5",
+        outline: "bg-transparent text-black hover:bg-black hover:text-white",
+        secondary: "bg-neo-blue text-white hover:-translate-x-0.5 hover:-translate-y-0.5",
+        ghost: "bg-transparent text-black hover:bg-neo-yellow border-transparent",
+        link: "text-black underline-offset-4 hover:underline border-transparent bg-transparent",
+        success: "bg-neo-green text-black hover:-translate-x-0.5 hover:-translate-y-0.5",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        default: "h-12 px-6 py-3 text-sm",
+        sm: "h-9 px-4 py-2 text-xs",
+        lg: "h-14 px-8 py-4 text-base",
+        xl: "h-16 px-10 py-5 text-lg",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {
@@ -40,7 +43,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          "shadow-neo hover:shadow-neo-lg active:shadow-neo-sm active:translate-x-0.5 active:translate-y-0.5"
+        )}
         ref={ref}
         {...props}
       />

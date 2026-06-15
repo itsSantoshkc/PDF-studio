@@ -5,9 +5,8 @@ import { authApi } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import { formatFileSize } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, User, Lock, Zap, Check, AlertCircle } from "lucide-react";
 
 function Settings() {
   const navigate = useNavigate();
@@ -38,8 +37,8 @@ function Settings() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="flex items-center gap-4 px-4 py-3 border-b">
+    <div className="min-h-screen bg-neo-purple neo-grid">
+      <header className="flex items-center gap-4 px-6 py-4 border-b-4 border-black bg-white">
         <Button
           variant="ghost"
           size="icon"
@@ -47,52 +46,77 @@ function Settings() {
         >
           <ArrowLeft className="h-5 w-5" />
         </Button>
-        <h1 className="text-lg font-semibold">Settings</h1>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-black flex items-center justify-center">
+            <Zap className="h-5 w-5 text-neo-purple" />
+          </div>
+          <h1 className="text-xl font-bold uppercase tracking-tight">Settings</h1>
+        </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-2xl space-y-8">
-        <Card>
+      <main className="container mx-auto px-6 py-8 max-w-2xl space-y-8">
+        <Card className="neo-card-hover">
           <CardHeader>
-            <CardTitle>Profile</CardTitle>
-            <CardDescription>Your account information</CardDescription>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-neo-yellow border-2 border-black flex items-center justify-center">
+                <User className="h-4 w-4" />
+              </div>
+              <CardTitle>Profile</CardTitle>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label className="text-muted-foreground">Name</Label>
-                <p className="font-medium">
+              <div className="border-2 border-black p-3 bg-gray-50">
+                <Label className="text-xs text-muted-foreground">Name</Label>
+                <p className="font-bold">
                   {user?.first_name} {user?.last_name}
                 </p>
               </div>
-              <div>
-                <Label className="text-muted-foreground">Email</Label>
-                <p className="font-medium">{user?.email}</p>
+              <div className="border-2 border-black p-3 bg-gray-50">
+                <Label className="text-xs text-muted-foreground">Email</Label>
+                <p className="font-mono text-sm">{user?.email}</p>
               </div>
             </div>
-            <div>
-              <Label className="text-muted-foreground">Storage Used</Label>
-              <p className="font-medium">
+            <div className="border-2 border-black p-3 bg-neo-yellow">
+              <Label className="text-xs">Storage Used</Label>
+              <p className="font-bold">
                 {user?.storage_used_mb} MB / {user?.storage_limit_mb} MB
               </p>
+              <div className="mt-2 h-3 border-2 border-black bg-white">
+                <div
+                  className="h-full bg-black transition-all"
+                  style={{ width: `${user?.storage_percentage ?? 0}%` }}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="neo-card-hover">
           <CardHeader>
-            <CardTitle>Change Password</CardTitle>
-            <CardDescription>Update your password</CardDescription>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-neo-blue border-2 border-black flex items-center justify-center">
+                <Lock className="h-4 w-4 text-white" />
+              </div>
+              <CardTitle>Change Password</CardTitle>
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handlePasswordChange} className="space-y-4">
               {message.text && (
                 <div
-                  className={`p-3 text-sm rounded-md ${
+                  className={cn(
+                    "flex items-center gap-2 p-4 border-3 border-black font-mono text-sm uppercase tracking-wider",
                     message.type === "error"
-                      ? "text-destructive bg-destructive/10"
-                      : "text-green-600 bg-green-50"
-                  }`}
+                      ? "bg-neo-pink text-white"
+                      : "bg-neo-green"
+                  )}
                 >
+                  {message.type === "error" ? (
+                    <AlertCircle className="h-5 w-5" />
+                  ) : (
+                    <Check className="h-5 w-5" />
+                  )}
                   {message.text}
                 </div>
               )}
@@ -136,7 +160,9 @@ function Settings() {
                 />
               </div>
 
-              <Button type="submit">Update Password</Button>
+              <Button type="submit" className="w-full">
+                Update Password
+              </Button>
             </form>
           </CardContent>
         </Card>
